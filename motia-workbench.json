@@ -21,5 +21,22 @@
         "y": 0
       }
     }
+  },
+  {
+    "id": "github-discord-sync",
+    "config": {
+      "src/github/github-webhook.step.js": {
+        "x": -48,
+        "y": 17
+      },
+      "src/gemini/gemini.step.js": {
+        "x": 350,
+        "y": 44
+      },
+      "src/discord/discordhandler.step.js": {
+        "x": 718,
+        "y": 71
+      }
+    }
   }
 ]

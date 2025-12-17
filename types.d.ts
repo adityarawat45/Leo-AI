@@ -12,7 +12,9 @@ declare module 'motia' {
   }
 
   interface Handlers {
-    'github-webhook': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'github-webhook': ApiRouteHandler<Record<string, unknown>, unknown, { topic: 'generate-notification-content'; data: never }>
+    'generateNotificationContent': EventHandler<never, { topic: 'discord-notifier'; data: never }>
+    'pingDiscord': EventHandler<never, never>
   }
     
 }

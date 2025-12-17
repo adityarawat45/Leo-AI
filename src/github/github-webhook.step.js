@@ -32,46 +32,54 @@ export const config = {
   path: '/github/webhooks',
   method: 'POST',
   emits : ["generate-notification-content"],
+  flows: ['github-discord-sync'],
 };
 
-export const handler = async (req, { emit, logger }) => {
+export const handler = async (req, { emit, logger, state }) => {
+  logger.info("Inside webhook handler");
   try {
     const event = req.headers["x-github-event"];
     const action = req.body.action;
-    logger.info("event : ", event)
-    logger.info("body : ", req.body)
-
-    const parsed = githubIssueSchema.safeParse(req.body);
+    const body = req.body;
+    const parsed = githubIssueSchema.safeParse(body);
     if (!parsed.success) {
-      logger.error("Invalid issue payload", parsed.error);
+      logger.info("Invalid issue payload", parsed.error);
       return;
     }
-
     const issue = req.body.issue;
+    if(event === 'issues'){
+      await emit({
+        topic: "generate-notification-content",
+        data: {
+          action,
+          number: issue.number,
+          title: issue.title,
+          state: issue.state,
+          body: issue.body,
+          html_url: issue.html_url,
+          labels: issue.labels,
+          assignees: issue.assignees,
+          created_at: issue.created_at,
+          updated_at: issue.updated_at,
+          closed_at: issue.closed_at,
 
-    await emit({
-      topic: "generate-notification-content",
-      data: {
-        action,
-        number: issue.number,
-        title: issue.title,
-        state: issue.state,
-        body: issue.body,
-        html_url: issue.html_url,
-        labels: issue.labels,
-        assignees: issue.assignees,
-        created_at: issue.created_at,
-        updated_at: issue.updated_at,
-        closed_at: issue.closed_at,
+          repo_name: req.body.repository.full_name,
+          actor: req.body.sender.login,
+        },
+      });
+    }
 
-        repo_name: req.body.repository.full_name,
-        actor: req.body.user.login,
-      },
+    logger.info("Webhook succesfully processed");
+    return ({status : 200, ok : true})
+    
+  } catch (error) {
+    logger.error('GitHub webhook processing failed', {
+      error: error instanceof Error ? error.message : 'Unknown error',
     });
 
-    return ({ok : true})
-    
-  } catch (err) {
-    logger.error("Some error occurred", err);
+    return {
+      status: 400,
+      body: { error: 'Webhook processing failed' },
+    };
   }
 };
