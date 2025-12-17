@@ -1,0 +1,25 @@
+[
+  {
+    "id": "hello-world-flow",
+    "config": {
+      "src/hello/process-greeting.step.js": {
+        "x": 409,
+        "y": 44
+      },
+      "src/hello/hello-api.step.js": {
+        "x": 0,
+        "y": 0,
+        "sourceHandlePosition": "right"
+      }
+    }
+  },
+  {
+    "id": "github-content-generate",
+    "config": {
+      "src/github/github-webhook.step.js": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  }
+]
