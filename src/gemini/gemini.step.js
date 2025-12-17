@@ -39,12 +39,13 @@ export const handler = async (input, { logger, state , emit}) => {
     const response = await generateMessage(input);
     console.log("response : " + response);
     if(response.status !== 200) {
-      return ({status : response.status, ok : false})
+      response = {};
+      response.message = `New action triggered : ${input.action}, checkout at : ${input.html_url}`
     }
     await emit({
       topic : "discord-notifier",
       data : {
-        message : response.text
+        message : response.message
       }
     })
     logger.info("Message generated succesfully");
