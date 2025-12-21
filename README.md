@@ -81,3 +81,31 @@ Steps are auto-discovered from your `steps/` or `src/` directories - no manual r
 - [Quick Start Guide](https://motia.dev/docs/getting-started/quick-start) - Detailed getting started tutorial
 - [Core Concepts](https://motia.dev/docs/concepts/overview) - Learn about Steps and Motia architecture
 - [Discord Community](https://discord.gg/motia) - Get help and connect with other developers
+
+
+
+About LEO AI : LEO is an event-driven backend system that listens to GitHub events (issues, pull requests, merges, etc.), processes them through a structured workflow, optionally enriches them using AI, and posts clean, readable notifications to a Discord server.
+
+Built using **Motia** as the workflow engine.
+
+---
+
+## ✨ What does it do?
+
+- Listens to **GitHub webhooks**
+- Handles events like:
+  - Issue opened / closed / edited
+  - Pull request opened / closed / merged(Soon)
+- Normalizes and validates incoming webhook data
+- Generates human-friendly messages (AI-assisted or deterministic)
+- Sends real-time notifications to **Discord** via webhooks
+
+
+## 🏗️ Architecture Overview
+
+
+Please refer to the .env.example file to setup the env variables
+
+--To setup your github repository. Please generate a webhook with the required permsissions. Ref : https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks
+
+--Generate a discord webhook as well. reference : https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks
